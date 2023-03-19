@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Http\Requests\UserRegisterRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -8,8 +9,6 @@ use App\Models\User;
 
 class AuthController extends Controller
 {
-
-
     public function login(Request $request)
     {
         $request->validate([
@@ -40,12 +39,7 @@ class AuthController extends Controller
 
     }
 
-    public function register(Request $request){
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6',
-        ]);
+    public function register(UserRegisterRequest $request){
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
