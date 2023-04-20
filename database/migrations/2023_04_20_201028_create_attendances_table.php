@@ -13,8 +13,9 @@ return new class extends Migration
     {
         Schema::create('attendances', function (Blueprint $table) {
             $table->id();
-            $table->timestamp('from_date');
-            $table->timestamp('to_date');
+            $table->timestamp('from_time')->default(now());
+            $table->timestamp('to_time')->default(now());
+            $table->enum('type', ['sick', 'paid']);
             $table->foreignId('user_id')->constrained();
             $table->timestamps();
         });
