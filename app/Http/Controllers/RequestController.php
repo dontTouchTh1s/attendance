@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\LeaveRequest;
 use App\Models\Request;
 use App\Http\Requests\StoreRequestRequest;
 use App\Http\Requests\UpdateRequestRequest;
@@ -21,7 +22,7 @@ class RequestController extends Controller
      */
     public function create()
     {
-        //
+
     }
 
     /**
@@ -29,7 +30,32 @@ class RequestController extends Controller
      */
     public function store(StoreRequestRequest $request)
     {
-        //
+        $requestable = '';
+        switch ($request->type){
+            case 'leave':
+                $requestable = LeaveRequest::create([
+                    'dates' => $request->dates,
+                    'type' => $request->type,
+                    'accepted' => \LeaveAccepted::Pending,
+                    'description' => $request->description
+                ]);
+                break;
+            case 'optional-leave':
+
+                //'min_days' => $request->min_days,
+                //'max_days' => $request->max_days,
+                //'from_date' =>
+                break;
+            case 'overtime':
+                break;
+        }
+
+        Request::create([
+            'employee_id' => $request->employee_id,
+            'requestable_id' => $requestable->id,
+            'requestable_type' => $requestable::class
+        ]);
+
     }
 
     /**
@@ -51,7 +77,7 @@ class RequestController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateRequestRequest $request, Request $request)
+    public function update(UpdateRequestRequest $request)
     {
         //
     }

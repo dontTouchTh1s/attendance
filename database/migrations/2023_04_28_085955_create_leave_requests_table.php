@@ -11,10 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('requests', function (Blueprint $table) {
+        Schema::create('leave_requests', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('employee_id')->constrained();
-            $table->morphs('requestable');
+            $table->json('dates');
+            $table->enum('type', []);
+            $table->enum('status', ['accepted', 'declined', 'pending', 'pending-for-admin']);
+            $table->string('feedback')->nullable();
+            $table->string('description')->nullable();
             $table->timestamps();
         });
     }
@@ -24,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('requests');
+        Schema::dropIfExists('leave_requests');
     }
 };

@@ -11,10 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('requests', function (Blueprint $table) {
+        Schema::create('group_policies', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('employee_id')->constrained();
-            $table->morphs('requestable');
+            $table->string('name');
+            $table->integer('max_leave_month')->comment('minutes');
+            $table->integer('max_leave_year')->comment('minutes');
+            $table->foreignId('penalty_condition_id')->constrained();
             $table->timestamps();
         });
     }
@@ -24,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('requests');
+        Schema::dropIfExists('group_policies');
     }
 };

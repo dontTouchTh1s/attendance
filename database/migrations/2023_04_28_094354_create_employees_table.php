@@ -11,10 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('requests', function (Blueprint $table) {
+        Schema::create('employees', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('employee_id')->constrained();
-            $table->morphs('requestable');
+            $table->string('first_name');
+            $table->string('last_name');
+            $table->foreignId('group_policies_id')->constrained();
+            $table->foreignId('user_id')->constrained();
+            $table->foreign('manager_id')->references('id')->on('employees');
             $table->timestamps();
         });
     }
@@ -24,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('requests');
+        Schema::dropIfExists('employees');
     }
 };
