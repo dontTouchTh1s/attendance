@@ -10,7 +10,16 @@ class LeaveRequest extends Model
 {
     use HasFactory;
 
-    public function request(): MorphOne{
+    protected $fillable = [
+        'dates',
+        'type',
+        'description',
+        'status',
+        'feedback',
+    ];
+
+    public function request(): MorphOne
+    {
         return $this->morphOne(Request::class, 'requestable');
     }
 }
