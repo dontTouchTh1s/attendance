@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\LeaveRequest;
-use App\Models\Request;
+use App\Enums\LeaveRequestStatus;
 use App\Http\Requests\StoreRequestRequest;
 use App\Http\Requests\UpdateRequestRequest;
+use App\Models\LeaveRequest;
+use App\Models\Request;
 
 class RequestController extends Controller
 {
@@ -14,15 +15,7 @@ class RequestController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-
+        return Request::all()->toJson();
     }
 
     /**
@@ -31,12 +24,12 @@ class RequestController extends Controller
     public function store(StoreRequestRequest $request)
     {
         $requestable = '';
-        switch ($request->type){
+        switch ($request->type) {
             case 'leave':
                 $requestable = LeaveRequest::create([
                     'dates' => $request->dates,
-                    'type' => $request->type,
-                    'accepted' => \LeaveAccepted::Pending,
+                    'leave_type' => $request->type,
+                    'status' => LeaveRequestStatus::Pending,
                     'description' => $request->description
                 ]);
                 break;
@@ -50,11 +43,21 @@ class RequestController extends Controller
                 break;
         }
 
-        Request::create([
+        $req = Request::create([
             'employee_id' => $request->employee_id,
             'requestable_id' => $requestable->id,
             'requestable_type' => $requestable::class
         ]);
+
+        return $req->requestable->toJson();
+
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
 
     }
 
