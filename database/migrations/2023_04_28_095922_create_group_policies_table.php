@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -16,7 +15,6 @@ return new class extends Migration
             $table->string('name');
             $table->integer('max_leave_month')->comment('minutes');
             $table->integer('max_leave_year')->comment('minutes');
-            $table->foreignId('penalty_condition_id')->constrained();
             $table->timestamps();
         });
     }
