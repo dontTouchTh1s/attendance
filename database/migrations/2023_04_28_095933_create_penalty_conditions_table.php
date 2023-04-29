@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -13,9 +12,10 @@ return new class extends Migration
     {
         Schema::create('penalty_conditions', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->enum('type', ['delay', 'cuttingOut', 'leaveAttendance']);
-            $table->integer('penalty');
+            $table->enum('type', \App\Enums\PenaltyConditionType::values());
+            $table->integer('delay')->comment('minutes');
+            $table->integer('penalty')->comment('minutes');
+            $table->foreignId('group_policy_id')->constrained();
             $table->timestamps();
         });
     }
