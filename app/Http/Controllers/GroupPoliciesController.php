@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\GroupPolicies;
 use App\Http\Requests\StoreGroupPoliciesRequest;
 use App\Http\Requests\UpdateGroupPoliciesRequest;
+use App\Models\GroupPolicy;
 
 class GroupPoliciesController extends Controller
 {
@@ -35,7 +35,7 @@ class GroupPoliciesController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(GroupPolicies $groupPolicies)
+    public function show(GroupPolicy $groupPolicies)
     {
         //
     }
@@ -43,7 +43,7 @@ class GroupPoliciesController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(GroupPolicies $groupPolicies)
+    public function edit(GroupPolicy $groupPolicies)
     {
         //
     }
@@ -51,7 +51,7 @@ class GroupPoliciesController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateGroupPoliciesRequest $request, GroupPolicies $groupPolicies)
+    public function update(UpdateGroupPoliciesRequest $request, GroupPolicy $groupPolicies)
     {
         //
     }
@@ -59,7 +59,7 @@ class GroupPoliciesController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(GroupPolicies $groupPolicies)
+    public function destroy(GroupPolicy $groupPolicies)
     {
         //
     }
