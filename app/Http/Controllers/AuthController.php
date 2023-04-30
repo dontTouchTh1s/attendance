@@ -1,11 +1,13 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Http\Requests\UserRegisterRequest;
+use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use App\Models\User;
 
 class AuthController extends Controller
 {
@@ -27,19 +29,15 @@ class AuthController extends Controller
         }
 
         $user = Auth::user();
-        $token = $user->createToken('access_token')->plainTextToken;
         return response()->json([
             'status' => 'success',
             'user' => $user,
-            'authorisation' => [
-                'token' => $token,
-                'type' => 'bearer',
-            ]
         ]);
 
     }
 
-    public function register(UserRegisterRequest $request){
+    public function register(UserRegisterRequest $request): JsonResponse
+    {
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
@@ -48,22 +46,19 @@ class AuthController extends Controller
 
         $credentials = $request->only('email', 'password');
         Auth::attempt($credentials);
-        $token = $user->createToken('access_token')->plainTextToken;
 
         return response()->json([
             'status' => 'success',
             'message' => 'User created successfully',
             'user' => $user,
-            'authorisation' => [
-                'token' => $token,
-                'type' => 'bearer',
-            ]
         ]);
     }
 
-    public function logout()
+    public function logout(Request $request): JsonResponse
     {
-        Auth::user()->currentAccessToken()->delete();
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
         return response()->json([
             'status' => 'success',
             'message' => 'Successfully logged out',
@@ -72,18 +67,7 @@ class AuthController extends Controller
 
     public function refresh()
     {
-        $user = Auth::user();
-        $user->currentAccessToken()->delete();
-        $token = $user->createToken('access_token')->plainTextToken;
 
-        return response()->json([
-            'status' => 'success',
-            'user' => Auth::user(),
-            'authorisation' => [
-                'token' => $token,
-                'type' => 'bearer',
-            ]
-        ]);
     }
 
 }
