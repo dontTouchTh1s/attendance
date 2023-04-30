@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\PenaltyConditionType;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -12,7 +13,7 @@ return new class extends Migration {
     {
         Schema::create('penalty_conditions', function (Blueprint $table) {
             $table->id();
-            $table->enum('type', \App\Enums\PenaltyConditionType::values());
+            $table->enum('type', PenaltyConditionType::values());
             $table->integer('delay')->comment('minutes');
             $table->integer('penalty')->comment('minutes');
             $table->foreignId('group_policy_id')->constrained();

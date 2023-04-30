@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\LeaveRequestStatus;
 use App\Enums\LeaveRequestsType;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -15,7 +16,7 @@ return new class extends Migration {
             $table->id();
             $table->json('dates');
             $table->enum('type', LeaveRequestsType::values());
-            $table->enum('status', ['accepted', 'declined', 'pending', 'pendingForAdmin']);
+            $table->enum('status', LeaveRequestStatus::values());
             $table->string('feedback')->nullable();
             $table->string('description')->nullable();
             $table->timestamps();
