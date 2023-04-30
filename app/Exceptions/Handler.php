@@ -2,7 +2,11 @@
 
 namespace App\Exceptions;
 
+use Exception;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\JsonResponse;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -44,5 +48,17 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             //
         });
+
+        $this->renderable(
+            function (AuthenticationException $e, $request): bool|JsonResponse {
+            if ($request->is('api/*')) {
+                return response()->json([
+                    'message' => 'Not authenticated'
+                ], 401);
+            }
+            return false;
+        }
+        );
     }
+
 }
