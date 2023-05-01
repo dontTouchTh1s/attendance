@@ -51,7 +51,7 @@ class Handler extends ExceptionHandler
             function (AuthenticationException $e, $request): bool|JsonResponse {
                 if ($request->is('api/*')) {
                     return response()->json([
-                        'message' => 'Not authenticated'
+                        'message' => 'unauthorized'
                     ], 401);
                 }
                 return false;
