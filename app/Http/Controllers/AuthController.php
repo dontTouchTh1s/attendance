@@ -24,7 +24,7 @@ class AuthController extends Controller
         if (!$attempt) {
             return response()->json([
                 'status' => 'error',
-                'message' => 'Unauthorized',
+                'message' => 'Unauthorized, user name or password in wrong.',
             ], 401);
         }
 
@@ -54,12 +54,12 @@ class AuthController extends Controller
         ]);
     }
 
-    public function logout(Request $request): JsonResponse
+    public function logout(Request $request)
     {
         Auth::guard('web')->logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return response()->json([
+        return response([
             'status' => 'success',
             'message' => 'Successfully logged out',
         ]);
