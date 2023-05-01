@@ -26,8 +26,9 @@ Route::controller(AuthController::class)->group(function () {
 
 Route::prefix('requests')->group(function () {
     Route::controller(RequestController::class)->group(function () {
-        Route::post('create', 'store');
-        Route::post('/', 'index')->middleware('auth:sanctum');
+        Route::post('/create', 'store');
+        Route::post('/', 'index');
+        Route::get('/{request}', 'show');
     });
-});
+})->middleware('auth:sanctum');
 
