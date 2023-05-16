@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Enums\LeaveRequestStatus;
 use App\Http\Requests\StoreRequestRequest;
 use App\Http\Requests\UpdateRequestRequest;
+use App\Http\Resources\RequestResource;
 use App\Models\LeaveRequest;
 use App\Models\Request;
 use Illuminate\Http\Response;
@@ -16,9 +17,7 @@ class RequestController extends Controller
      */
     public function index()
     {
-        return response(Request::all()->each(function ($req) {
-            $req->requestable;
-        }));
+        return RequestResource::collection(Request::all());
     }
 
     /**
@@ -48,8 +47,9 @@ class RequestController extends Controller
                 //Create an OvertimeRequest
                 break;
         }
+        $employee_id = isset($request->employee_id) ? $request->employee_id : \Auth::user()->id;
         $req = Request::create([
-            'employee_id' => $request->employee_id,
+            'employee_id' => $employee_id,
             'requestable_id' => $requestable->id,
             'requestable_type' => $requestable::class
         ]);
@@ -62,12 +62,12 @@ class RequestController extends Controller
     /**
      * Display the specified resource.
      * @param Request $request
-     * @return Response
+     * @return RequestResource
      */
-    public function show(Request $request): Response
+    public function show(Request $request)
     {
-        $request->requestable;
-        return response($request, 200);
+        return new RequestResource($request);
+
     }
 
     /*
