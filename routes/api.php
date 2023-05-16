@@ -24,10 +24,11 @@ Route::controller(AuthController::class)->group(function () {
 });
 
 
-Route::prefix('requests')->group(function () {
+Route::middleware('auth:sanctum')->prefix('requests')->group(function () {
     Route::controller(RequestController::class)->group(function () {
-        Route::post('create', 'store');
-        Route::post('/', 'index')->middleware('auth:sanctum');
+        Route::post('/create', 'store');
+        Route::get('/', 'index');
+        Route::get('/{request}', 'show');
     });
 });
 

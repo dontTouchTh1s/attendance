@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\LeaveRequestsType;
 use App\Enums\RequestType;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
@@ -26,13 +27,20 @@ class StoreRequestRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'employee_id' => 'required|integer|',
+            'employee_id' => '|integer|',
             'type' => [new Enum(RequestType::class), 'required'],
             'description' => 'required|string',
-            'leave_type' => 'required_unless:type,overtime',
+            'leave_type' =>
+                [new Enum(LeaveRequestsType::class),
+                    'required_with:type,leave
+                    |required_with:type,optionalLeave'],
             'dates' => 'required_unless:type,optionalLeave|json',
+
+            // OverTime data
             'from_hour' => 'required_if:type,overtime|date',
             'to_hour' => 'required_with:from-hour|date',
+
+            // Optional leave request data
             'min_days' => 'required_if:type,optionalLeave',
             'max_days' => 'required_with:min-days|integer',
             'from_date' => 'required_with:min-days|date',
