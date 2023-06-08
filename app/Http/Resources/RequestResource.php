@@ -18,7 +18,8 @@ class RequestResource extends JsonResource
             'id' => $this->id,
             'name' => $this->employee->first_name . ' ' . $this->employee->last_name,
             'type' => $this->getType(),
-            'date' => $this->updated_at
+            'create-date' => $this->updated_at,
+            'leave-date' => $this->requestable->dates
         ];
     }
 }
