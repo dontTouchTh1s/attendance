@@ -35,7 +35,8 @@ class StoreRequestRequest extends FormRequest
                     'required_with:type,leave
                     |required_with:type,optionalLeave'],
             'dates' => 'required_unless:type,optionalLeave|json',
-
+            // Optional hours if leave request is hourly
+            'hours' => 'json',
             // OverTime data
             'from_hour' => 'required_if:type,overtime|date',
             'to_hour' => 'required_with:from-hour|date',
