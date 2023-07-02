@@ -4,7 +4,7 @@ namespace App\Enums;
 
 use ArchTech\Enums\Values;
 
-enum LeaveRequestStatus: string
+enum RequestStatus: string
 {
     use Values;
 

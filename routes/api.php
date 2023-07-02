@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\LeaveRequestController;
 use App\Http\Controllers\RequestController;
 use Illuminate\Support\Facades\Route;
 
@@ -30,5 +31,6 @@ Route::middleware('auth:sanctum')->prefix('requests')->group(function () {
         Route::get('/', 'index');
         Route::get('/{request}', 'show');
     });
+    Route::patch('/update', [LeaveRequestController::class, 'update']);
 });
 
