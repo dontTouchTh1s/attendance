@@ -2,7 +2,12 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\RequestStatus;
+use Illuminate\Contracts\Validation\Rule;
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Validation\Rules\Enum;
 
 class UpdateLeaveRequestRequest extends FormRequest
 {
@@ -11,18 +16,28 @@ class UpdateLeaveRequestRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\Rule|array|string>
+     * @return array<string, Rule|array|string>
      */
     public function rules(): array
     {
         return [
-            //
+            'id' => 'required',
+            'status' => [new Enum(RequestStatus::class)],
         ];
+    }
+
+    public function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(response()->json([
+            'status' => 'error',
+            'message' => 'validation error',
+            'errors' => $validator->errors()
+        ], 422));
     }
 }
