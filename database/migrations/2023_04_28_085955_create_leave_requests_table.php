@@ -16,8 +16,8 @@ return new class extends Migration {
             $table->enum('type', LeaveRequestsType::values());
             $table->dateTime('from_date');
             $table->dateTime('to_date');
-            $table->time('from_hour');
-            $table->time('to_hour');
+            $table->time('from_hour')->default('07:00:00');
+            $table->time('to_hour')->default('15:00:00');
             $table->timestamps();
         });
     }
