@@ -11,11 +11,12 @@ class LeaveRequest extends Model
     use HasFactory;
 
     protected $fillable = [
-        'dates',
+        'from_date',
+        'to_date',
+        'from_hour',
+        'to_hour',
         'type',
-        'description',
-        'status',
-        'feedback',
+
     ];
 
     public function request(): MorphOne
