@@ -2,33 +2,37 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\AttendanceLeaveType;
+use App\Http\Requests\StoreAttendanceLeaveRequest;
 use App\Models\AttendanceLeave;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class AttendanceLeaveController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreAttendanceLeaveRequest $request)
     {
-        //
+        $employee_id = isset($request->employee_id) ? $request->employee_id : \Auth::user()->id;
+        $lastInDay = AttendanceLeave::whereDate('date', '=', Carbon::now()->subDay())->first();
+        $attendanceLeave = AttendanceLeave::create();
+        if (!isset($request->type)) {
+            if ($lastInDay == null) {
+                // First enter in day
+                $attendanceLeave->type = AttendanceLeaveType::Attendance;
+            } else {
+                if ($lastInDay->type = AttendanceLeaveType::Leave)
+                    $attendanceLeave->type = AttendanceLeaveType::Attendance;
+                else
+                    $attendanceLeave->type = AttendanceLeaveType::Leave;
+            }
+        }
+        $attendanceLeave->date = $request->date;
+        $attendanceLeave->employee_id = $employee_id;
+
     }
 
     /**

@@ -15,6 +15,8 @@ return new class extends Migration {
             $table->string('name');
             $table->integer('max_leave_month')->comment('minutes');
             $table->integer('max_leave_year')->comment('minutes');
+            $table->time('work_start_hour');
+            $table->time('work_end_hour');
             $table->timestamps();
         });
     }

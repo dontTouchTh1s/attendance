@@ -30,21 +30,22 @@ class StoreRequestRequest extends FormRequest
             'employee_id' => '|integer|',
             'type' => [new Enum(RequestType::class), 'required'],
             'description' => 'required|string',
+            'from_date' => 'required',
+            'to_date' => 'required',
             'leave_type' =>
                 [new Enum(LeaveRequestsType::class),
-                    'required_with:type,leave
-                    |required_with:type,optionalLeave'],
+                    'required_with:type,leave|
+                     required_with:type,optionalLeave'],
             // Optional hours if leave request is hourly
             'hours' => 'json',
             // OverTime data
-            'from_hour' => 'required_if:type,overtime|date',
+            'from_hour' => 'required_if:type,overtime|
+                            date',
             'to_hour' => 'required_with:from-hour|date',
 
             // Optional leave request data
             'min_days' => 'required_if:type,optionalLeave',
             'max_days' => 'required_with:min-days|integer',
-            'from_date' => 'required_with:min-days|date',
-            'to_date' => 'required_with:min-days|date',
             'interval' => 'required_with:min-days|integer',
 
         ];

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AttendanceLeaveController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\LeaveRequestController;
 use App\Http\Controllers\RequestController;
@@ -34,3 +35,8 @@ Route::middleware('auth:sanctum')->prefix('requests')->group(function () {
     Route::patch('/update', [LeaveRequestController::class, 'update']);
 });
 
+Route::middleware('auth:sanctum')->prefix('attendance-leave')->group(function() {
+    Route::controller(AttendanceLeaveController::class)->group(function() {
+        Route::post('create', 'store');
+    });
+});

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Enums\RequestStatus;
 use App\Http\Requests\StoreRequestRequest;
 use App\Http\Resources\RequestResource;
+use App\Models\Employee;
 use App\Models\LeaveRequest;
 use App\Models\Request;
 use Illuminate\Http\Response;
@@ -24,16 +25,25 @@ class RequestController extends Controller
      * @param StoreRequestRequest $request
      * @return Response
      */
-    public function store(StoreRequestRequest $request): Response
+    public function store(StoreRequestRequest $request)
     {
         $requestable = null;
+        $employee_id = isset($request->employee_id) ? $request->employee_id : \Auth::user()->id;
         switch ($request->type) {
             case 'leave': //Creating leave request
+                if (!isset($request->from_hour)){
+                    $policy = Employee::find($employee_id)->groupPolicy;
+                    $from_hour = $policy->work_start_hour;
+                    $to_hour = $policy->work_end_hour;
+                }else{
+                    $from_hour = $request->from_hour;
+                    $to_hour = $request->to_hour;
+                }
                 $requestable = LeaveRequest::create([
                     'from_date' => $request->from_date,
                     'to_date' => $request->to_date,
-                    'from_hour' => $request->from_hour,
-                    'to_hour' => $request->to_hour,
+                    'from_hour' => $from_hour,
+                    'to_hour' => $to_hour,
                     'type' => $request->leave_type,
                 ]);
                 break;
@@ -47,7 +57,7 @@ class RequestController extends Controller
                 //Create an OvertimeRequest
                 break;
         }
-        $employee_id = isset($request->employee_id) ? $request->employee_id : \Auth::user()->id;
+
         $req = Request::create([
             'employee_id' => $employee_id,
             'requestable_id' => $requestable->id,
