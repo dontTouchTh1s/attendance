@@ -4,6 +4,7 @@ use App\Http\Controllers\AttendanceLeaveController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\LeaveRequestController;
 use App\Http\Controllers\RequestController;
+use App\Http\Controllers\WorkPlaceController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -37,6 +38,11 @@ Route::middleware('auth:sanctum')->prefix('requests')->group(function () {
 
 Route::middleware('auth:sanctum')->prefix('attendance-leave')->group(function() {
     Route::controller(AttendanceLeaveController::class)->group(function() {
+        Route::post('create', 'store');
+    });
+});
+Route::middleware('auth:sanctum')->prefix('work-place')->group(function() {
+    Route::controller(WorkPlaceController::class)->group(function() {
         Route::post('create', 'store');
     });
 });
