@@ -11,7 +11,7 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('attendance_leave_times', function (Blueprint $table) {
+        Schema::create('attendance_leaves', function (Blueprint $table) {
             $table->id();
             $table->timestamp('date');
             $table->enum('type', AttendanceLeaveType::values());

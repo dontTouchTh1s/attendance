@@ -24,7 +24,8 @@ class GroupPolicyFactory extends Factory
             'max_leave_month' => fake()->numberBetween(7, 15),
             'max_leave_year' => fake()->numberBetween(84, 180),
             'work_start_hour' => array_rand($startHour),
-            'work_end_hour' => array_rand($endHour)
+            'work_end_hour' => array_rand($endHour),
+            'work_place_id' => 1
         ];
     }
 }
