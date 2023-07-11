@@ -5,8 +5,6 @@ namespace App\Http\Controllers;
 use App\Enums\AttendanceLeaveType;
 use App\Http\Requests\StoreAttendanceLeaveRequest;
 use App\Models\AttendanceLeave;
-use App\Models\User;
-use App\Models\WorkPlace;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -36,18 +34,19 @@ class AttendanceLeaveController extends Controller
         $attendanceLeave->employee_id = $employee_id;
 
     }
-    public function updateLocation(Request $request){
+
+    public function updateLocation(Request $request)
+    {
 
         $request->validate([
             'lat' => 'required',
             'lng' => 'required'
         ]);
-        $user = User::find(\Auth::user()->id);
-
-
-        return response($user->employee);
+        $user = \Auth::user()->employee->groupPolicy->workPlace;
+        return response($user);
 
     }
+
     /**
      * Display the specified resource.
      */
