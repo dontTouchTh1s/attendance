@@ -27,7 +27,6 @@ class StoreWorkPlaceRequest extends FormRequest
             'radius' => 'required',
             'name' => 'required|string',
             'address' => 'required|string',
-
         ];
     }
 }

@@ -39,6 +39,7 @@ Route::middleware('auth:sanctum')->prefix('requests')->group(function () {
 Route::middleware('auth:sanctum')->prefix('attendance-leave')->group(function() {
     Route::controller(AttendanceLeaveController::class)->group(function() {
         Route::post('create', 'store');
+        Route::post('update-location', 'updateLocation');
     });
 });
 Route::middleware('auth:sanctum')->prefix('work-place')->group(function() {
