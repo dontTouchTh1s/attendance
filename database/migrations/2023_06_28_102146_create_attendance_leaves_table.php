@@ -15,6 +15,7 @@ return new class extends Migration {
             $table->id();
             $table->timestamp('date');
             $table->enum('type', AttendanceLeaveType::values());
+            $table->foreignId('employee_id')->constrained();
             $table->timestamps();
         });
     }
