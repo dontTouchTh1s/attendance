@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Enums\RequestStatus;
 use App\Http\Requests\StoreRequestRequest;
+use App\Http\Requests\UpdateRequestRequest;
 use App\Http\Resources\RequestResource;
 use App\Models\Employee;
 use App\Models\LeaveRequest;
@@ -31,11 +32,11 @@ class RequestController extends Controller
         $employee_id = isset($request->employee_id) ? $request->employee_id : \Auth::user()->id;
         switch ($request->type) {
             case 'leave': //Creating leave request
-                if (!isset($request->from_hour)){
+                if (!isset($request->from_hour)) {
                     $policy = Employee::find($employee_id)->groupPolicy;
                     $from_hour = $policy->work_start_hour;
                     $to_hour = $policy->work_end_hour;
-                }else{
+                } else {
                     $from_hour = $request->from_hour;
                     $to_hour = $request->to_hour;
                 }
@@ -82,6 +83,12 @@ class RequestController extends Controller
 
     }
 
+    public function update(UpdateRequestRequest $request, Request $requestModel)
+    {
+        $values = $request->all();
+        $requestModel->fill($values)->save();
+        return response($requestModel);
+    }
 
     /**
      * Remove the specified resource from storage.
