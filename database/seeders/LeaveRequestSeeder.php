@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\LeaveRequest;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -12,6 +13,5 @@ class LeaveRequestSeeder extends Seeder
      */
     public function run(): void
     {
-        //
     }
 }

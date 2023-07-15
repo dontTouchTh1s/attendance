@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Enums\LeaveRequestsType;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -16,8 +18,13 @@ class LeaveRequestFactory extends Factory
      */
     public function definition(): array
     {
+        $fromDate = fake()->dateTimeBetween('-2 month', now())->format('Y-m-d');
+        $toDate = new Carbon($fromDate);
+        $toDate->addDays(fake()->numberBetween(1, 4));
         return [
-            //
+            'type' => fake()->randomElement(LeaveRequestsType::values()),
+            'from_date' => $fromDate,
+            'to_date' => $toDate
         ];
     }
 }
