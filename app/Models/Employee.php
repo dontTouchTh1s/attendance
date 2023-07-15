@@ -26,8 +26,14 @@ class Employee extends Model
     {
         return $this->hasMany(Request::class);
     }
+
     public function user(): HasOne
     {
         return $this->hasOne(User::class);
+    }
+
+    public function AttendanceLeaves(): HasMany
+    {
+        return $this->hasMany(AttendanceLeave::class);
     }
 }
