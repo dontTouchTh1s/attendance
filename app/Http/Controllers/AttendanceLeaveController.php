@@ -16,36 +16,30 @@ class AttendanceLeaveController extends Controller
      */
     public function store(StoreAttendanceLeaveRequest $request)
     {
+        $date = new Carbon($request->date);
         $employee_id = isset($request->employee_id) ? $request->employee_id : \Auth::user()->id;
-        $lastInDay = AttendanceLeave::whereDate('date', '=', Carbon::now()->subDay())->first();
-        $attendanceLeave = AttendanceLeave::create();
+        $lastInDay = AttendanceLeave::whereDate('date', '=', $date)->first();
+
         if (!isset($request->type)) {
             if ($lastInDay == null) {
                 // First enter in day
-                $attendanceLeave->type = AttendanceLeaveType::Attendance;
+                $type = AttendanceLeaveType::Attendance;
             } else {
                 if ($lastInDay->type = AttendanceLeaveType::Leave)
-                    $attendanceLeave->type = AttendanceLeaveType::Attendance;
+                    $type = AttendanceLeaveType::Attendance;
                 else
-                    $attendanceLeave->type = AttendanceLeaveType::Leave;
+                    $type = AttendanceLeaveType::Leave;
             }
-        }
-        $attendanceLeave->date = $request->date;
-        $attendanceLeave->employee_id = $employee_id;
+        } else
+            $type = $request->type;
 
-    }
-
-    public function updateLocation(Request $request)
-    {
-
-        $request->validate([
-            'lat' => 'required',
-            'lng' => 'required'
+        AttendanceLeave::create([
+            'employee_id' => $employee_id,
+            'date' => $request->date,
+            'type' => $type
         ]);
-        $user = \Auth::user()->employee->groupPolicy->workPlace;
-        return response($user);
-
     }
+
 
     /**
      * Display the specified resource.
