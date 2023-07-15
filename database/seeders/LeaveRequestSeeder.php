@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\LeaveRequest;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class LeaveRequestSeeder extends Seeder
@@ -13,5 +12,6 @@ class LeaveRequestSeeder extends Seeder
      */
     public function run(): void
     {
+        LeaveRequest::factory()->count(10)->hasRequest()->create();
     }
 }

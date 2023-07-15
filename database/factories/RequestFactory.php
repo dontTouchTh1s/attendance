@@ -2,7 +2,6 @@
 
 namespace Database\Factories;
 
-use App\Models\LeaveRequest;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,13 +16,10 @@ class RequestFactory extends Factory
      */
     public function definition(): array
     {
-        $leaveRequest = factory(LeaveRequest::class)->count(1)->create();
         return [
-            'employee_id' => fake()->randomNumber(),
+            'employee_id' => fake()->numberBetween(1, 10),
             'description' => fake()->text,
             'status' => 'pending',
-            'requestable_type' => LeaveRequest::class,
-            'requestable_id' => $leaveRequest->id
         ];
     }
 }
