@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\AttendanceLeaveController;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\LeaveRequestController;
 use App\Http\Controllers\RequestController;
 use App\Http\Controllers\WorkPlaceController;
 use Illuminate\Support\Facades\Route;
@@ -32,8 +31,9 @@ Route::middleware('auth:sanctum')->prefix('requests')->group(function () {
         Route::post('/create', 'store');
         Route::get('/', 'index');
         Route::get('/{request}', 'show');
+        Route::patch('/{requestModel}', 'update');
     });
-    Route::patch('/update', [LeaveRequestController::class, 'update']);
+
 });
 
 Route::middleware('auth:sanctum')->prefix('attendance-leave')->group(function () {
