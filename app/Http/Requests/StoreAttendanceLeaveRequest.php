@@ -25,7 +25,7 @@ class StoreAttendanceLeaveRequest extends FormRequest
     {
         return [
             'type' => [new Enum(AttendanceLeaveType::class)],
-            'date' => 'required',
+            'date' => 'required|date',
             'employee_id' => 'integer'
         ];
     }
