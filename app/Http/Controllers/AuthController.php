@@ -30,8 +30,9 @@ class AuthController extends Controller
 
         $user = Auth::user();
         return response()->json([
-            'status' => 'success',
-            'user' => $user,
+            'name' => $user->name,
+            'email' => $user->email,
+            'workPlace' => $user->employee->groupPolicy->workPlace
         ]);
 
     }
