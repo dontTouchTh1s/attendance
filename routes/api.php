@@ -31,7 +31,7 @@ Route::middleware('auth:sanctum')->prefix('requests')->group(function () {
         Route::post('/create', 'store');
         Route::get('/', 'index');
         Route::get('/{request}', 'show');
-        Route::patch('/{requestModel}', 'update');
+        Route::patch('/{requestModel?}{requestModels?}', 'update');
     });
 
 });
