@@ -16,9 +16,14 @@ class RequestController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(\Illuminate\Http\Request $request)
     {
-        return RequestResource::collection(Request::all());
+        $status = $request->validate(['status' => 'string'])['status'];
+        if ($status === '')
+            return RequestResource::collection(Request::all());
+        else if ($status === 'pending') {
+            return RequestResource::collection(Request::all()->where('status', '=', 'pending'));
+        } else return new Response('unknown parameter value', 400);
     }
 
     /**
@@ -83,11 +88,19 @@ class RequestController extends Controller
 
     }
 
-    public function update(UpdateRequestRequest $request, Request $requestModel)
+    public function update(UpdateRequestRequest $request, Request $requestModel = null, array $requestModels = null)
     {
         $values = $request->all();
-        $requestModel->fill($values)->save();
-        return response($requestModel);
+        if ($requestModel != null) {
+            $requestModel->fill($values)->save();
+            return response($requestModel);
+        } else if ($requestModels !== null) {
+            foreach ($requestModels as $requestModel) {
+                $requestModel->fill($values)->save();
+                return \response('success', 200);
+            }
+        }
+        return \response('No parameter for updating requests', 400);
     }
 
     /**
