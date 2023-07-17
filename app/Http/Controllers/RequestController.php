@@ -9,6 +9,7 @@ use App\Http\Resources\RequestResource;
 use App\Models\Employee;
 use App\Models\LeaveRequest;
 use App\Models\Request;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Response;
 
 class RequestController extends Controller
@@ -88,17 +89,23 @@ class RequestController extends Controller
 
     }
 
-    public function update(UpdateRequestRequest $request, Request $requestModel = null, array $requestModels = null)
+    public function update(UpdateRequestRequest $request, Request $requestModel = null)
     {
-        $values = $request->all();
+        $values = $request->rows;
         if ($requestModel != null) {
             $requestModel->fill($values)->save();
             return response($requestModel);
-        } else if ($requestModels !== null) {
-            foreach ($requestModels as $requestModel) {
-                $requestModel->fill($values)->save();
-                return \response('success', 200);
+        } else {
+            foreach ($request->ids as $id) {
+                try {
+                    $model = Request::findOrFail($id);
+                    $model->fill($values)->save();
+                } catch (ModelNotFoundException $e) {
+                    return \response('no request with id finds', 404);
+                }
+
             }
+            return \response('success', 200);
         }
         return \response('No parameter for updating requests', 400);
     }
