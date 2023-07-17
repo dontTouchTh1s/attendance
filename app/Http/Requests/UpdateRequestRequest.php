@@ -2,11 +2,9 @@
 
 namespace App\Http\Requests;
 
-use App\Enums\RequestStatus;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
-use Illuminate\Validation\Rules\Enum;
 
 class UpdateRequestRequest extends FormRequest
 {
@@ -16,7 +14,8 @@ class UpdateRequestRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'status' => [new Enum(RequestStatus::class), 'required'],
+            'rows' => '',
+            'ids' => 'array'
         ];
     }
 
