@@ -10,6 +10,10 @@ use Illuminate\Http\Request;
 
 class AttendanceLeaveController extends Controller
 {
+    public function index(Request $request)
+    {
+        return \response(AttendanceLeave::all());
+    }
 
     /**
      * Store a newly created resource in storage.
