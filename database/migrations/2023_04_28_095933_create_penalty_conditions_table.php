@@ -14,7 +14,7 @@ return new class extends Migration {
         Schema::create('penalty_conditions', function (Blueprint $table) {
             $table->id();
             $table->enum('type', PenaltyConditionType::values());
-            $table->integer('delay')->comment('minutes');
+            $table->integer('duration')->comment('minutes');
             $table->integer('penalty')->comment('minutes');
             $table->foreignId('group_policy_id')->constrained();
             $table->timestamps();
