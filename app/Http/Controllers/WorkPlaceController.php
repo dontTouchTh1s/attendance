@@ -13,7 +13,7 @@ class WorkPlaceController extends Controller
      */
     public function index()
     {
-        //
+        return WorkPlace::all();
     }
 
 

@@ -10,5 +10,5 @@ enum PenaltyConditionType: string
 
     case Delay = 'delay';
     case CuttingOut = 'cuttingOut';
-    case LeaveAttendance = 'LeaveAttendance';
+    case LeaveAttendance = 'leaveAttendance';
 }

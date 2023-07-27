@@ -37,7 +37,6 @@ class UserRegisterRequest extends FormRequest
     {
         throw new HttpResponseException(response()->json([
             'status' => 'error',
-            'message' => 'validation error',
             'errors' => $validator->errors()
         ], 422));
     }

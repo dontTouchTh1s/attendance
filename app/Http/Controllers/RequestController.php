@@ -107,7 +107,6 @@ class RequestController extends Controller
             }
             return \response('success', 200);
         }
-        return \response('No parameter for updating requests', 400);
     }
 
     /**

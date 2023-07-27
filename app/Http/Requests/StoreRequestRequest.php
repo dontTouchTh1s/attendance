@@ -36,12 +36,9 @@ class StoreRequestRequest extends FormRequest
                 [new Enum(LeaveRequestsType::class),
                     'required_with:type,leave|
                      required_with:type,optionalLeave'],
+            'from_hour' => '',
+            'to_hour' => '',
             // Optional hours if leave request is hourly
-            'hours' => 'json',
-            // OverTime data
-            'from_hour' => 'required_if:type,overtime|
-                            date',
-            'to_hour' => 'required_with:from-hour|date',
 
             // Optional leave request data
             'min_days' => 'required_if:type,optionalLeave',
@@ -55,7 +52,6 @@ class StoreRequestRequest extends FormRequest
     {
         throw new HttpResponseException(response()->json([
             'status' => 'error',
-            'message' => 'validation error',
             'errors' => $validator->errors()
         ], 422));
     }

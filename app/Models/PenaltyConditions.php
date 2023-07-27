@@ -10,6 +10,13 @@ class PenaltyConditions extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'type',
+        'penalty',
+        'duration',
+        'group_policy_id'
+    ];
+
     public function groupPolicy(): BelongsTo
     {
         return $this->belongsTo(GroupPolicy::class);

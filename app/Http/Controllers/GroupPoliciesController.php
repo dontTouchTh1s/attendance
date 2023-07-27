@@ -13,32 +13,21 @@ class GroupPoliciesController extends Controller
      */
     public function index()
     {
-        //
+        return GroupPolicy::all();
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(StoreGroupPoliciesRequest $request)
     {
-        //
+        $data = $request->validated();
+        $gp = new GroupPolicy();
+        $gp->fill($data)->save();
+        return response('', 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(GroupPolicy $groupPolicies)
-    {
-        //
-    }
 
     /**
      * Show the form for editing the specified resource.

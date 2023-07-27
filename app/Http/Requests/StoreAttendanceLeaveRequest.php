@@ -3,7 +3,9 @@
 namespace App\Http\Requests;
 
 use App\Enums\AttendanceLeaveType;
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Validation\Rules\Enum;
 
 class StoreAttendanceLeaveRequest extends FormRequest
@@ -28,5 +30,13 @@ class StoreAttendanceLeaveRequest extends FormRequest
             'date' => 'required|date',
             'employee_id' => 'integer'
         ];
+    }
+
+    public function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(response()->json([
+            'status' => 'error',
+            'errors' => $validator->errors()
+        ], 422));
     }
 }
