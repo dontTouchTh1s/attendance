@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\AttendanceLeaveController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\GroupPoliciesController;
+use App\Http\Controllers\PenaltyConditionController;
 use App\Http\Controllers\RequestController;
 use App\Http\Controllers\WorkPlaceController;
 use Illuminate\Support\Facades\Route;
@@ -43,8 +45,20 @@ Route::middleware('auth:sanctum')->prefix('attendance-leaves')->group(function (
         Route::get('/', 'index');
     });
 });
-Route::middleware('auth:sanctum')->prefix('work-place')->group(function () {
+Route::middleware('auth:sanctum')->prefix('work-places')->group(function () {
     Route::controller(WorkPlaceController::class)->group(function () {
-        Route::post('create', 'store');
+        Route::post('/create', 'store');
+        Route::get('/', 'index');
+    });
+});
+Route::middleware('auth:sanctum')->prefix('group-policies')->group(function () {
+    Route::controller(GroupPoliciesController::class)->group(function () {
+        Route::post('/create', 'store');
+        Route::get('/', 'index');
+    });
+});
+Route::middleware('auth:sanctum')->prefix('penalty-conditions')->group(function () {
+    Route::controller(PenaltyConditionController::class)->group(function () {
+        Route::post('/create', 'store');
     });
 });
