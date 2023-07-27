@@ -19,7 +19,7 @@ class PenaltyConditionsFactory extends Factory
     {
         return [
             'type' => fake()->randomElement(PenaltyConditionType::values()),
-            'delay' => fake()->numberBetween(10, 60),
+            'duration' => fake()->numberBetween(10, 60),
             'penalty' => fake()->numberBetween(10, 60)
         ];
     }
