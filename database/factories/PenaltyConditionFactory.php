@@ -6,9 +6,9 @@ use App\Enums\PenaltyConditionType;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\PenaltyConditions>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\PenaltyCondition>
  */
-class PenaltyConditionsFactory extends Factory
+class PenaltyConditionFactory extends Factory
 {
     /**
      * Define the model's default state.
