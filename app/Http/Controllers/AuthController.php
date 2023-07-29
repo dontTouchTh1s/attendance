@@ -39,7 +39,6 @@ class AuthController extends Controller
 
     public function user()
     {
-        $response = null;
         Auth::check() ? $response = response(Auth::user()) : $response = response('No authenticated', 401);
         return $response;
 
