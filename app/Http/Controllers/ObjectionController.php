@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Conditions;
-use App\Http\Requests\StoreConditionsRequest;
-use App\Http\Requests\UpdateConditionsRequest;
+use App\Models\Objection;
+use Illuminate\Http\Request;
 
-class ConditionsController extends Controller
+class ObjectionController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -27,7 +26,7 @@ class ConditionsController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreConditionsRequest $request)
+    public function store(Request $request)
     {
         //
     }
@@ -35,7 +34,7 @@ class ConditionsController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Conditions $conditions)
+    public function show(Objection $objection)
     {
         //
     }
@@ -43,7 +42,7 @@ class ConditionsController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Conditions $conditions)
+    public function edit(Objection $objection)
     {
         //
     }
@@ -51,7 +50,7 @@ class ConditionsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateConditionsRequest $request, Conditions $conditions)
+    public function update(Request $request, Objection $objection)
     {
         //
     }
@@ -59,7 +58,7 @@ class ConditionsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Conditions $conditions)
+    public function destroy(Objection $objection)
     {
         //
     }
