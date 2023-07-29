@@ -27,7 +27,7 @@ class GroupPolicy extends Model
 
     public function penaltyConditions(): HasMany
     {
-        return $this->HasMany(PenaltyConditions::class);
+        return $this->HasMany(PenaltyCondition::class);
     }
 
     public function workPlace(): BelongsTo
