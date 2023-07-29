@@ -46,20 +46,13 @@ class AttendanceLeaveController extends Controller
 
 
     /**
-     * Display the specified resource.
+     * Show attendance leaves for current user
      */
-    public function show(AttendanceLeave $attendanceLeave)
+    public function user()
     {
-        //
+        return AttendanceLeave::all()->where('employee_id', '=', \Auth::user()->employee()->id);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(AttendanceLeave $attendanceLeave)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
