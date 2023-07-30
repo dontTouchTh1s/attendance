@@ -2,10 +2,11 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\Pivot;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class AttendanceLeave extends Pivot
+class AttendanceLeave extends Model
 {
     protected $table = 'attendance_leaves';
     protected $fillable = [
@@ -17,5 +18,10 @@ class AttendanceLeave extends Pivot
     public function employee(): BelongsTo
     {
         return $this->belongsTo(Employee::class);
+    }
+
+    public function objections(): HasMany
+    {
+        return $this->hasMany(Objection::class);
     }
 }

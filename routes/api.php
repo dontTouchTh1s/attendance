@@ -3,6 +3,7 @@
 use App\Http\Controllers\AttendanceLeaveController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\GroupPoliciesController;
+use App\Http\Controllers\ObjectionController;
 use App\Http\Controllers\PenaltyConditionController;
 use App\Http\Controllers\RequestController;
 use App\Http\Controllers\WorkPlaceController;
@@ -46,20 +47,32 @@ Route::middleware('auth:sanctum')->prefix('attendance-leaves')->group(function (
         Route::get('/user', 'index');
     });
 });
+
 Route::middleware('auth:sanctum')->prefix('work-places')->group(function () {
     Route::controller(WorkPlaceController::class)->group(function () {
         Route::post('/create', 'store');
         Route::get('/', 'index');
     });
 });
+
 Route::middleware('auth:sanctum')->prefix('group-policies')->group(function () {
     Route::controller(GroupPoliciesController::class)->group(function () {
         Route::post('/create', 'store');
         Route::get('/', 'index');
     });
 });
+
 Route::middleware('auth:sanctum')->prefix('penalty-conditions')->group(function () {
     Route::controller(PenaltyConditionController::class)->group(function () {
         Route::post('/create', 'store');
+    });
+});
+
+Route::middleware('auth:sanctum')->prefix('objections')->group(function () {
+    Route::controller(ObjectionController::class)->group(function () {
+        Route::post('/create', 'store');
+        Route::get('/', 'index');
+        Route::get('/user', 'user');
+        Route::patch('/{objection}', 'update');
     });
 });
