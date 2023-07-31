@@ -19,12 +19,15 @@ class RequestController extends Controller
      */
     public function index(\Illuminate\Http\Request $request)
     {
-        $status = $request->validate(['status' => 'string'])['status'];
-        if ($status === '')
+        $data = $request->validate(['status' => 'string']);
+        if (isset($data['status'])) {
+            $status = $data['status'];
+            if ($status === 'pending') {
+                return RequestResource::collection(Request::all()->where('status', '=', 'pending'));
+            } else return new Response('unknown parameter value', 400);
+        } else {
             return RequestResource::collection(Request::all());
-        else if ($status === 'pending') {
-            return RequestResource::collection(Request::all()->where('status', '=', 'pending'));
-        } else return new Response('unknown parameter value', 400);
+        }
     }
 
     /**
