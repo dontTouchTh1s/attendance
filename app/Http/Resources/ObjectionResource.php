@@ -16,12 +16,10 @@ class ObjectionResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'description' => $this->description,
-            'employee_name' => $this->attendanceLeave->employee->name,
+            'employee_name' => $this->attendanceLeave->employee->first_name . ' ' . $this->attendanceLeave->employee->last_name,
             'type' => $this->attendanceLeave->type,
             'date' => $this->attendanceLeave->date,
-
-
+            'description' => $this->description,
         ];
     }
 }
