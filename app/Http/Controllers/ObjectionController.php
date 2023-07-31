@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreObjectionRequest;
+use App\Http\Requests\UpdateObjectionRequest;
 use App\Http\Resources\ObjectionResource;
+use App\Http\Resources\UserObjectionResource;
 use App\Models\Objection;
-use Illuminate\Http\Request;
+
 
 class ObjectionController extends Controller
 {
@@ -14,7 +16,7 @@ class ObjectionController extends Controller
      */
     public function index()
     {
-        return ObjectionResource::collection(Objection::all());
+        return ObjectionResource::collection(Objection::all()->where('reviewed', false));
     }
 
 
@@ -25,6 +27,7 @@ class ObjectionController extends Controller
     {
         $objection = new Objection();
         $objection->fill($request->validated())->save();
+
         return response('objection created', 201);
     }
 
@@ -36,13 +39,29 @@ class ObjectionController extends Controller
         //
     }
 
+    public function user()
+    {
+        $attendanceLeaves = \Auth::user()->employee->attendanceLeaves;
+        $objections = [];
+        foreach ($attendanceLeaves as $attendanceLeave) {
+            $objectionCollection = $attendanceLeave->objections;
+            foreach ($objectionCollection as $objection) {
+                $objections[] = ($objection);
+            }
+        }
+        return UserObjectionResource::collection($objections);
+
+    }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Objection $objection)
+    public function update(UpdateObjectionRequest $request, Objection $objection)
     {
-        //
+        $objection->fill($request->validated());
+        $objection->reviewed = true;
+        $objection->save();
+        return response('successful', 200);
     }
 
     /**
