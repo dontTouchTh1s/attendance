@@ -7,6 +7,7 @@ use App\Http\Controllers\ObjectionController;
 use App\Http\Controllers\PenaltyConditionController;
 use App\Http\Controllers\RequestController;
 use App\Http\Controllers\WorkPlaceController;
+use App\Models\PenaltyCondition;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -37,7 +38,6 @@ Route::middleware('auth:sanctum')->prefix('requests')->group(function () {
         Route::get('/{request}', 'show');
         Route::patch('/{requestModel?}', 'update');
     });
-
 });
 
 Route::middleware('auth:sanctum')->prefix('attendance-leaves')->group(function () {
@@ -64,7 +64,7 @@ Route::middleware('auth:sanctum')->prefix('group-policies')->group(function () {
 
 Route::middleware('auth:sanctum')->prefix('penalty-conditions')->group(function () {
     Route::controller(PenaltyConditionController::class)->group(function () {
-        Route::post('/create', 'store');
+        Route::post('/create', 'store')->can('create', PenaltyCondition::class);
     });
 });
 
