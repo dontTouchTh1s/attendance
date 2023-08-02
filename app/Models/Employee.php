@@ -17,9 +17,14 @@ class Employee extends Model
         return $this->belongsTo(GroupPolicy::class);
     }
 
-    public function manager(): HasOne
+    public function manager(): BelongsTo
     {
-        return $this->hasOne(Employee::class);
+        return $this->BelongsTo(Employee::class, 'manager_id');
+    }
+
+    public function employees(): HasMany
+    {
+        return $this->HasMany(Employee::class, 'manager_id');
     }
 
     public function requests(): HasMany
@@ -32,7 +37,7 @@ class Employee extends Model
         return $this->hasOne(User::class);
     }
 
-    public function AttendanceLeaves(): HasMany
+    public function attendanceLeaves(): HasMany
     {
         return $this->hasMany(AttendanceLeave::class);
     }
