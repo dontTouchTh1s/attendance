@@ -29,11 +29,18 @@ class AuthController extends Controller
         }
 
         $user = Auth::user();
-        return response()->json([
-            'name' => $user->name,
-            'email' => $user->email,
-            'workPlace' => $user->employee->groupPolicy->workPlace
-        ]);
+        if ($user->employee != null) {
+            return response()->json([
+                'name' => $user->name,
+                'email' => $user->email,
+                'workPlace' => $user->employee->groupPolicy->workPlace
+            ]);
+        } else {
+            return response()->json([
+                'name' => $user->name,
+                'email' => $user->email,
+            ]);
+        }
 
     }
 
@@ -65,8 +72,7 @@ class AuthController extends Controller
     public function logout(Request $request)
     {
         Auth::guard('web')->logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
+
         return response([
             'status' => 'success',
             'message' => 'Successfully logged out',
