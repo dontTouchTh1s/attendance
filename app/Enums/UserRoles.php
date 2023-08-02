@@ -11,5 +11,6 @@ enum UserRoles: string
     case EAA = 'expertAdministrativeAffairs';
     case MAA = 'managerAdministrativeAffairs';
     case Employee = 'employee';
+    case User = 'user';
     case Manager = 'manager';
 }
