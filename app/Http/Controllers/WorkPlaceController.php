@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreWorkPlaceRequest;
 use App\Models\WorkPlace;
 use Illuminate\Http\Request;
+use Psy\Util\Json;
 
 class WorkPlaceController extends Controller
 {
@@ -23,12 +24,15 @@ class WorkPlaceController extends Controller
     public function store(StoreWorkPlaceRequest $request)
     {
         WorkPlace::create([
-            'lat' => $request->lat,
-            'lng' => $request->lng,
+            'location' => Json::encode([
+                'lat' => $request->lat,
+                'lng' => $request->lng
+            ]),
             'radius' => $request->radius,
             'address' => $request->address,
             'name' => $request->name
         ]);
+        return response('created', 201);
     }
 
     /**
