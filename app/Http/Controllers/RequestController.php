@@ -19,14 +19,39 @@ class RequestController extends Controller
      */
     public function index(\Illuminate\Http\Request $request)
     {
+        $roll = \Auth::user()->roll;
         $data = $request->validate(['status' => 'string']);
         if (isset($data['status'])) {
             $status = $data['status'];
             if ($status === 'pending') {
+                if ($roll == 'manager') {
+                    $manager = \Auth::user()->employee;
+                    $requests = [];
+                    $managerEmployees = $manager->employees;
+                    foreach ($managerEmployees as $managerEmployee) {
+                        foreach ($managerEmployee->requests as $employeeRequest) {
+                            if ($employeeRequest->status == 'pending')
+                                $requests[] = $employeeRequest;
+                        }
+                    }
+                    return RequestResource::collection($requests);
+                }
+
                 return RequestResource::collection(Request::all()->where('status', '=', 'pending'));
             } else return new Response('unknown parameter value', 400);
         } else {
-            return RequestResource::collection(Request::all());
+            if ($roll == 'manager') {
+                $manager = \Auth::user()->employee;
+                $requests = [];
+                $managerEmployees = $manager->employees;
+                foreach ($managerEmployees as $managerEmployee) {
+                    foreach ($managerEmployee->requests as $employeeRequest) {
+                        $requests[] = $employeeRequest;
+                    }
+                }
+                return RequestResource::collection($requests);
+            } else
+                return RequestResource::collection(Request::all());
         }
     }
 
