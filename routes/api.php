@@ -44,7 +44,7 @@ Route::middleware('auth:sanctum')->prefix('attendance-leaves')->group(function (
     Route::controller(AttendanceLeaveController::class)->group(function () {
         Route::post('/create', 'store');
         Route::get('/', 'index');
-        Route::get('/user', 'index');
+        Route::get('/user', 'user');
     });
 });
 
