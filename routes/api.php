@@ -2,11 +2,13 @@
 
 use App\Http\Controllers\AttendanceLeaveController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\GroupPoliciesController;
 use App\Http\Controllers\ObjectionController;
 use App\Http\Controllers\PenaltyConditionController;
 use App\Http\Controllers\RequestController;
 use App\Http\Controllers\WorkPlaceController;
+use App\Models\Employee;
 use App\Models\PenaltyCondition;
 use Illuminate\Support\Facades\Route;
 
@@ -74,5 +76,12 @@ Route::middleware('auth:sanctum')->prefix('objections')->group(function () {
         Route::get('/', 'index');
         Route::get('/user', 'user');
         Route::patch('/{objection}', 'update');
+    });
+});
+
+Route::middleware('auth:sanctum')->prefix('employees')->group(function () {
+    Route::controller(EmployeeController::class)->group(function () {
+        Route::post('/create', 'store')->can('create', Employee::class);
+        Route::get('/', 'index')->can('viewAny', Employee::class);
     });
 });
