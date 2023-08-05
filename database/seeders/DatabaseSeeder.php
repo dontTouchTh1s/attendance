@@ -3,8 +3,8 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use App\Models\GroupPolicy;
-use App\Models\WorkPlace;
+use App\Enums\UserRoles;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -14,12 +14,14 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $this->call([
-            UserSeeder::class,
-        ]);
-        WorkPlace::factory()->count(1)->create();
-        GroupPolicy::factory()->count(10)->hasPenaltyConditions(3)
-            ->hasEmployees(1)
-            ->create();
+        User::factory()->make([
+            'email' => 'maa@host.com',
+            'roll' => UserRoles::MAA->value
+        ])->create();
+
+        User::factory()->make([
+            'email' => 'eaa@host.com',
+            'roll' => UserRoles::EAA->value
+        ])->create();
     }
 }

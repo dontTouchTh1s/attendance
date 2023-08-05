@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\GroupPolicy;
 use Illuminate\Database\Seeder;
 
 class EmployeeSeeder extends Seeder
@@ -11,6 +12,13 @@ class EmployeeSeeder extends Seeder
      */
     public function run(): void
     {
-//        Employee::factory()->count(10)->create();
+        $this->call([
+            WorkPlaceSeeder::class
+        ]);
+
+        GroupPolicy::factory()->count(10)->hasPenaltyConditions(3)
+            ->hasEmployees()
+            ->create();
     }
+
 }
