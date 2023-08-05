@@ -6,7 +6,7 @@ use App\Enums\UserRoles;
 use App\Models\PenaltyCondition;
 use App\Models\User;
 
-class PenaltyConditionsPolicy
+class PenaltyConditionPolicy
 {
     /**
      * Determine whether the user can view any models.
@@ -29,7 +29,7 @@ class PenaltyConditionsPolicy
      */
     public function create(User $user): bool
     {
-        return $user->roll === UserRoles::MAA or $user->roll === UserRoles::EAA;
+        return $user->roll == UserRoles::MAA->value or $user->roll == UserRoles::EAA->value;
     }
 
     /**
