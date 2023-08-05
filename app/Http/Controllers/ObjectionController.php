@@ -16,7 +16,7 @@ class ObjectionController extends Controller
      */
     public function index()
     {
-        return ObjectionResource::collection(Objection::all()->where('reviewed', false));
+        return ObjectionResource::collection(Objection::where('reviewed', false));
     }
 
 
@@ -25,8 +25,7 @@ class ObjectionController extends Controller
      */
     public function store(StoreObjectionRequest $request)
     {
-        $objection = new Objection();
-        $objection->fill($request->validated())->save();
+        Objection::create($request->validated());
 
         return response('objection created', 201);
     }
