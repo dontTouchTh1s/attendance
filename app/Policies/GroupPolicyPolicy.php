@@ -5,7 +5,7 @@ namespace App\Policies;
 use App\Models\GroupPolicy;
 use App\Models\User;
 
-class GroupPoliciesPolicy
+class GroupPolicyPolicy
 {
     /**
      * Determine whether the user can view any models.
