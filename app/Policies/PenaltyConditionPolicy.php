@@ -29,7 +29,7 @@ class PenaltyConditionPolicy
      */
     public function create(User $user): bool
     {
-        return $user->roll == UserRoles::MAA->value or $user->roll == UserRoles::EAA->value;
+        return $user->roll == UserRoles::SuperAdmin->value or $user->roll == UserRoles::MAA->value or $user->roll == UserRoles::EAA->value;
     }
 
     /**
