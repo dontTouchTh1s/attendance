@@ -16,7 +16,7 @@ class ObjectionController extends Controller
      */
     public function index()
     {
-        return ObjectionResource::collection(Objection::where('reviewed', false));
+        return ObjectionResource::collection(Objection::all()->where('reviewed', false));
     }
 
 
