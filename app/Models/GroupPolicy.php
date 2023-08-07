@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -19,6 +20,13 @@ class GroupPolicy extends Model
         'work_end_hour',
         'work_place_id'
     ];
+
+    public function hourWorkInDay()
+    {
+        $start = new Carbon($this->work_start_hour);
+        $end = new Carbon($this->work_end_hour);
+        return $end->diffInHours($start);
+    }
 
     public function employees(): HasMany
     {
