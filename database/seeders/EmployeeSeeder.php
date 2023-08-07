@@ -2,7 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Enums\UserRoles;
 use App\Models\GroupPolicy;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class EmployeeSeeder extends Seeder
@@ -19,6 +21,28 @@ class EmployeeSeeder extends Seeder
         GroupPolicy::factory()->count(10)->hasPenaltyConditions(3)
             ->hasEmployees()
             ->create();
+
+        $adminGp = GroupPolicy::factory()
+            ->create([
+                'name' => 'مدیران'
+            ]);
+
+        User::factory()->forEmployee([
+            'first_name' => 'maa',
+            'group_policy_id' => $adminGp
+        ])
+            ->create([
+                'email' => 'maa@host.com',
+                'roll' => UserRoles::MAA->value
+            ]);
+
+        User::factory()->forEmployee([
+            'first_name' => 'eaa',
+            'group_policy_id' => $adminGp
+        ])->create([
+            'email' => 'eaa@host.com',
+            'roll' => UserRoles::EAA->value
+        ]);
     }
 
 }
