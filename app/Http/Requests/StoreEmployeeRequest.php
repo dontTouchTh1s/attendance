@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\UserRoles;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Enum;
 
 class StoreEmployeeRequest extends FormRequest
 {
@@ -27,7 +29,8 @@ class StoreEmployeeRequest extends FormRequest
             'email' => 'required|email|unique:users',
             'password' => 'required|string',
             'group_policy_id' => 'required|exists:App\Models\GroupPolicy,id',
-            'manager_id' => 'required|exists:App\Models\Employee,id',
+            'manager_id' => '',
+            'roll' => [new Enum(UserRoles::class)]
         ];
     }
 }

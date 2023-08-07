@@ -26,8 +26,20 @@ class EmployeeController extends Controller
      */
     public function store(StoreEmployeeRequest $request)
     {
-        // Create user
+        if (isset($request->manager_id)) {
+            Employee::findOr($request->manager_id, function () {
+                return response('Manager not found', 404);
+            });
+        }
         $user = new User();
+
+        if (isset($request->roll)) {
+            // User trying to store employee with specific roll
+            if (\Auth::user()->cannot('create', Employee::class))
+                response('You should have super admin roll to create employee with specific roll', 403);
+            $user->roll = $request->roll;
+        }
+        // Create user
         $user->password = Hash::make($request->password);
         $user->email = $request->email;
         $user->save();
