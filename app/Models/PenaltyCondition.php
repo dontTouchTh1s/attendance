@@ -14,7 +14,9 @@ class PenaltyCondition extends Model
         'type',
         'penalty',
         'duration',
-        'group_policy_id'
+        'group_policy_id',
+        'penalty_type',
+        'penalty_if_no_leave'
     ];
 
     public function groupPolicy(): BelongsTo

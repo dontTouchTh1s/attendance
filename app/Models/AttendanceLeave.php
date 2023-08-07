@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class AttendanceLeave extends Model
 {
@@ -23,5 +24,10 @@ class AttendanceLeave extends Model
     public function objections(): HasMany
     {
         return $this->hasMany(Objection::class);
+    }
+
+    public function penalty(): HasOne
+    {
+        return $this->hasOne(Penalty::class);
     }
 }

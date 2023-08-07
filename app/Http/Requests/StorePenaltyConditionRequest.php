@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Enums\PenaltyConditionType;
+use App\Enums\PenaltyType;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Enum;
 
@@ -28,7 +29,9 @@ class StorePenaltyConditionRequest extends FormRequest
                 'required'],
             'duration' => 'required|integer',
             'penalty' => 'required|integer',
-            'group_policy_id' => 'required|exists:App\Models\GroupPolicy,id'
+            'group_policy_id' => 'required|exists:App\Models\GroupPolicy,id',
+            'penalty_type' => [new Enum(PenaltyType::class), 'required|'],
+            'penalty_if_no_leave' => 'boolean|required_if:penalty_type,paid'
         ];
     }
 }
