@@ -50,7 +50,7 @@ class AttendanceLeaveController extends Controller
      */
     public function user()
     {
-        return AttendanceLeave::where('employee_id', '=', \Auth::user()->employee->id)->get();
+        return AttendanceLeave::all()->where('employee_id', '=', \Auth::user()->employee->id);
     }
 
 
