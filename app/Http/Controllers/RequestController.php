@@ -95,42 +95,12 @@ class RequestController extends Controller
                     $dayDiff = $rTo_date->diffInDays($rFrom_date);
                     $requestAmount = $dayDiff * $hourWorkTime * 60;
 
-
-                    $requests = $employee->requests;
-                    $totalLeave = 0;
-
-                    // Check for remain leave time in month
-                    foreach ($requests as $item) {
-                        if ($item->requestable_type == LeaveRequest::class) {
-                            $from_date = new Carbon($item->requestable->from_date);
-                            $to_date = new Carbon($item->requestable->to_date);
-                            if ($from_date->month == $rFrom_date->month) {
-                                $iFrom_hour = new Carbon($item->requestable->from_hour);
-                                $iTo_hour = new Carbon($item->requestable->to_hour);
-                                $hourWorkTime = $iTo_hour->diffInHours($iFrom_hour);
-                                $diff = $from_date->diffInDays($to_date) * $hourWorkTime * 60;
-                                $totalLeave += $diff;
-                            }
-                        }
-                    }
+                    $totalLeave = $employee->totalLeaveMonth($rFrom_date->month);
                     if ($totalLeave + $requestAmount > $employee->groupPolicy->max_leave_month)
                         return \response('Cant request this amount of leave in this month', 422);
 
-                    // Check for remain leave time in year
-                    foreach ($requests as $item) {
-                        if ($item->requestable_type == 'leave') {
-                            $from_date = new Carbon($item->requestable->from_date);
-                            $to_date = new Carbon($item->requestable->to_date);
-                            if ($from_date->year == $rFrom_date->year) {
-                                $iFrom_hour = new Carbon($item->requestable->from_hour);
-                                $iTo_hour = new Carbon($item->requestable->to_hour);
-                                $hourWorkTime = $iTo_hour->diffInHours($iFrom_hour);
-                                $diff = $from_date->diffInDays($to_date) * $hourWorkTime * 60;
-                                $totalLeave += $diff;
-                            }
-                        }
-                    }
-                    if ($diff > $employee->groupPolicy->max_leave_year)
+                    $totalLeave = $employee->totalLeaveYear($rFrom_date->year);
+                    if ($totalLeave + $requestAmount > $employee->groupPolicy->max_leave_year)
                         return \response('Cant request this amount of leave in this year', 422);
                 }
 
