@@ -2,13 +2,15 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\Pivot;
 
-class Penalty extends Pivot
+class Penalty extends Model
 {
     protected $fillable = [
-        ''
+        'duration',
+        'type',
+        'attendance_leave_id'
     ];
 
     public function attendanceLeave(): BelongsTo
