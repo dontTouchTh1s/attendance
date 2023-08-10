@@ -17,7 +17,7 @@ class RequestFactory extends Factory
     public function definition(): array
     {
         return [
-            'employee_id' => fake()->numberBetween(1, 10),
+            'employee_id' => fake()->numberBetween(1, 12),
             'description' => fake()->text,
             'status' => 'pending',
         ];

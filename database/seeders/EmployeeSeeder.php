@@ -27,7 +27,7 @@ class EmployeeSeeder extends Seeder
                 'name' => 'مدیران'
             ]);
 
-        User::factory()->forEmployee([
+        User::factory()->hasEmployee([
             'first_name' => 'maa',
             'group_policy_id' => $adminGp
         ])
@@ -36,7 +36,7 @@ class EmployeeSeeder extends Seeder
                 'roll' => UserRoles::MAA->value
             ]);
 
-        User::factory()->forEmployee([
+        User::factory()->hasEmployee([
             'first_name' => 'eaa',
             'group_policy_id' => $adminGp
         ])->create([

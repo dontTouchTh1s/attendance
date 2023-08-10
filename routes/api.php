@@ -4,6 +4,7 @@ use App\Http\Controllers\AttendanceLeaveController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\GroupPoliciesController;
+use App\Http\Controllers\LeaveRequestController;
 use App\Http\Controllers\ObjectionController;
 use App\Http\Controllers\PenaltyConditionController;
 use App\Http\Controllers\RequestController;
@@ -39,6 +40,12 @@ Route::middleware('auth:sanctum')->prefix('requests')->group(function () {
         Route::get('/', 'index');
         Route::get('/{request}', 'show');
         Route::patch('/{requestModel?}', 'update');
+    });
+});
+
+Route::middleware('auth:sanctum')->prefix('leave-requests')->group(function () {
+    Route::controller(LeaveRequestController::class)->group(function () {
+        Route::get('/', 'index');
     });
 });
 

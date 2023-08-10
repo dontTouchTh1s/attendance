@@ -12,6 +12,6 @@ class LeaveRequestSeeder extends Seeder
      */
     public function run(): void
     {
-        LeaveRequest::factory()->count(10)->hasRequest()->create();
+        LeaveRequest::factory()->count(20)->hasRequest()->create();
     }
 }

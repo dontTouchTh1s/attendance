@@ -18,7 +18,7 @@ class LeaveRequestFactory extends Factory
      */
     public function definition(): array
     {
-        $fromDate = fake()->dateTimeBetween('2 month', now())->format('Y-m-d');
+        $fromDate = fake()->dateTimeBetween(now(), '2 month')->format('Y-m-d');
         $toDate = new Carbon($fromDate);
         $toDate->addDays(fake()->numberBetween(1, 4));
         return [
