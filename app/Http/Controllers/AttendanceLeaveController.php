@@ -3,8 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Enums\AttendanceLeaveType;
+use App\Enums\PenaltyConditionType;
+use App\Enums\PenaltyType;
 use App\Http\Requests\StoreAttendanceLeaveRequest;
 use App\Models\AttendanceLeave;
+use App\Models\Employee;
+use App\Models\Penalty;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -22,26 +26,66 @@ class AttendanceLeaveController extends Controller
     {
         $date = new Carbon($request->date);
         $employee_id = isset($request->employee_id) ? $request->employee_id : \Auth::user()->id;
-        $lastInDay = AttendanceLeave::whereDate('date', '=', $date)->first();
+        $lastInDay = AttendanceLeave::whereDate('date', '=', $date)
+            ->orderBy('date', 'desc')
+            ->first();
 
-        if (!isset($request->type)) {
-            if ($lastInDay == null) {
-                // First enter in day
-                $type = AttendanceLeaveType::Attendance;
-            } else {
-                if ($lastInDay->type = AttendanceLeaveType::Leave)
-                    $type = AttendanceLeaveType::Attendance;
-                else
-                    $type = AttendanceLeaveType::Leave;
+        // Get penalty condition
+        $delayPenaltyCondition = null;
+        $employee = Employee::find($employee_id);
+        $groupPolicy = $employee->groupPolicy;
+        $penaltyConditions = $groupPolicy->penaltyConditions;
+        foreach ($penaltyConditions as $penaltyCondition) {
+            if ($penaltyCondition->type == PenaltyConditionType::Delay->value)
+                $delayPenaltyCondition = $penaltyCondition;
+        }
+
+
+        if ($lastInDay == null) {
+            // First enter in day
+            if ($delayPenaltyCondition != null) {
+                $workStart = new Carbon($employee->groupPolicy->work_start_hour);
+                $delay = $date->diffInMinutes($workStart);
+                if ($delay > $delayPenaltyCondition->duration) {
+                    // Employee should have penalty
+                    $penaltyType = $delayPenaltyCondition->penalty_type;
+                    $penaltyTime = $delayPenaltyCondition->penalty;
+                    if ($penaltyType == PenaltyType::Paid->value) {
+                        $remainLeaveMonth = $groupPolicy->max_leave_month - $employee->totalLeaveMonth($date->month);
+
+                        $remainLeaveYear = $groupPolicy->max_leave_year - $employee->totalLeaveYear($date->year);
+                        if ($penaltyTime > $remainLeaveMonth or $penaltyTime > $remainLeaveYear)
+                            $penaltyType = PenaltyType::NoPaid->value;
+                    }
+
+                    $penalty = new Penalty();
+                    $penalty->fill([
+                        'type' => $penaltyType,
+                        'duration' => $penaltyTime
+                    ]);
+                }
             }
-        } else
+            $type = AttendanceLeaveType::Attendance;
+        } else {
+            if ($lastInDay->type = AttendanceLeaveType::Leave)
+                $type = AttendanceLeaveType::Attendance;
+            else {
+                $type = AttendanceLeaveType::Leave;
+            }
+        }
+
+        if (isset($request->type))
             $type = $request->type;
 
-        AttendanceLeave::create([
+        $al = AttendanceLeave::create([
             'employee_id' => $employee_id,
             'date' => $request->date,
             'type' => $type
         ]);
+        if (isset($penalty)) {
+            $penalty->attendance_leave_id = $al->id;
+            $penalty->save();
+        }
     }
 
 
