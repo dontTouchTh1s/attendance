@@ -40,7 +40,7 @@ class WorkPlaceController extends Controller
      */
     public function show(WorkPlace $workPlace)
     {
-        //
+        return response($workPlace);
     }
 
 
