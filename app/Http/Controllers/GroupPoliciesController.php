@@ -27,13 +27,9 @@ class GroupPoliciesController extends Controller
         return response('', 201);
     }
 
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(GroupPolicy $groupPolicies)
+    public function show(GroupPolicy $groupPolicy)
     {
-        //
+        return response($groupPolicy);
     }
 
     /**

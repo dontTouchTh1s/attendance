@@ -31,6 +31,9 @@ Route::controller(AuthController::class)->prefix('auth')->group(function () {
     Route::post('logout', 'logout')->middleware('auth:sanctum');
     Route::post('refresh', 'refresh')->middleware('auth:sanctum');
     Route::get('/', 'user')->middleware('auth:sanctum');
+    Route::get('/employee', 'employee')->middleware('auth:sanctum');
+    Route::get('/employee/group-policy', 'groupPolicy')->middleware('auth:sanctum');
+    Route::get('/employee/group-policy/work-place', 'workPlace')->middleware('auth:sanctum');
 });
 
 

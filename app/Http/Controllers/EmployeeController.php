@@ -69,6 +69,11 @@ class EmployeeController extends Controller
         //
     }
 
+    public function show(Employee $employee)
+    {
+        return response($employee);
+    }
+
     /**
      * Remove the specified resource from storage.
      */
