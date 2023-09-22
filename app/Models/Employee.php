@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\RequestStatus;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -52,7 +53,7 @@ class Employee extends Model
 
     public function totalLeaveMonth($month): int
     {
-        $requests = $this->requests->where('requestable_type', LeaveRequest::class);
+        $requests = $this->requests->where('requestable_type', LeaveRequest::class)->where('status', '!=', RequestStatus::Declined->value);
         $totalLeave = 0;
 
         // Check for remain leave time in month
@@ -73,7 +74,7 @@ class Employee extends Model
 
     public function totalLeaveYear($year): int
     {
-        $requests = $this->requests->where('requestable_type', LeaveRequest::class);
+        $requests = $this->requests->where('requestable_type', LeaveRequest::class)->where('status', '!=', RequestStatus::Declined->value);;
         $totalLeave = 0;
         // Check for remain leave time in year
         foreach ($requests as $item) {
