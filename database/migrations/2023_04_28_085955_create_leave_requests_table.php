@@ -14,8 +14,8 @@ return new class extends Migration {
         Schema::create('leave_requests', function (Blueprint $table) {
             $table->id();
             $table->enum('type', LeaveRequestsType::values());
-            $table->dateTime('from_date');
-            $table->dateTime('to_date');
+            $table->date('from_date');
+            $table->date('to_date');
             $table->time('from_hour')->default('07:00:00');
             $table->time('to_hour')->default('15:00:00');
             $table->timestamps();
