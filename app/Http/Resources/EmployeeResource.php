@@ -19,8 +19,6 @@ class EmployeeResource extends JsonResource
             'name' => $this->first_name . $this->last_name,
             'groupPolicy' => $this->groupPolicy->name,
             'workPlace' => $this->groupPolicy->workPlace->name
-
-
         ];
     }
 }
