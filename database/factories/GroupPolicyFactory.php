@@ -21,8 +21,8 @@ class GroupPolicyFactory extends Factory
         $groupPoliciesNames = ['کارمندان', 'نگهبانی', 'نظافت', 'حساب داری'];
         return [
             'name' => fake()->randomElement($groupPoliciesNames),
-            'max_leave_month' => fake()->numberBetween(7, 15),
-            'max_leave_year' => fake()->numberBetween(84, 180),
+            'max_leave_month' => fake()->numberBetween(420, 900),
+            'max_leave_year' => fake()->numberBetween(5040, 10800),
             'work_start_hour' => fake()->randomElement($startHour),
             'work_end_hour' => fake()->randomElement($endHour),
             'work_place_id' => 1
