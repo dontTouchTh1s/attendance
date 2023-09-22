@@ -50,6 +50,22 @@ class AuthController extends Controller
 
     }
 
+    public function employee()
+    {
+        return response(Auth::user()->employee);
+    }
+
+    public function groupPolicy()
+    {
+        return response(Auth::user()->employee->groupPolicy);
+    }
+
+    public function workPlace()
+    {
+        return response(Auth::user()->employee->groupPolicy->workPlace);
+    }
+
+
     public function register(UserRegisterRequest $request): JsonResponse
     {
         $user = new User();
