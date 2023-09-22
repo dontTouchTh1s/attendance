@@ -64,15 +64,15 @@ class RequestController extends Controller
      */
     public function store(StoreRequestRequest $request)
     {
-
         $requestable = null;
         $employee_id = isset($request->employee_id) ? $request->employee_id : \Auth::user()->employee->id;
         switch ($request->type) {
-            case 'leave': //Creating leave request
+            case 'leave':
+                //Creating leave request
+                $from_hour = $request->from_hour;
+                $to_hour = $request->to_hour;
                 if ($request->leave_type == LeaveRequestsType::Paid->value) {
                     // If leave request type is paid, check for remain leave time in month and year
-
-
                     $rFrom_date = new Carbon($request->from_date);
                     $rTo_date = new Carbon($request->to_date);
                     $employee = Employee::find($employee_id);
@@ -83,8 +83,6 @@ class RequestController extends Controller
                         $to_hour = $policy->work_end_hour;
                         $hourWorkTime = $policy->hourWorkInDay();
                     } else {
-                        $from_hour = $request->from_hour;
-                        $to_hour = $request->to_hour;
                         $start = new Carbon($from_hour);
                         $end = new Carbon($to_hour);
                         $hourWorkTime = $end->diffInHours($start);
@@ -97,11 +95,11 @@ class RequestController extends Controller
 
                     $totalLeave = $employee->totalLeaveMonth($rFrom_date->month);
                     if ($totalLeave + $requestAmount > $employee->groupPolicy->max_leave_month)
-                        return \response('Cant request this amount of leave in this month', 422);
+                        return \response('درخواست این میزان مرخصی، بیش از حد مجاز در ماه است.', 406);
 
                     $totalLeave = $employee->totalLeaveYear($rFrom_date->year);
                     if ($totalLeave + $requestAmount > $employee->groupPolicy->max_leave_year)
-                        return \response('Cant request this amount of leave in this year', 422);
+                        return \response('درخواست این میزان مرخصی، بیش از حد مجاز در سال است.', 406);
                 }
 
                 $requestable = LeaveRequest::create([
