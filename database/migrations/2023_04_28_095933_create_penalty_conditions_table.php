@@ -18,7 +18,7 @@ return new class extends Migration {
             $table->integer('duration')->comment('minutes');
             $table->integer('penalty')->comment('minutes');
             $table->enum('penalty_type', PenaltyType::values());
-            $table->boolean('penalty_if_no_leave')->default(true);
+            $table->boolean('penalty_if_no_leave_remains')->default(true);
             $table->foreignId('group_policy_id')->constrained();
             $table->timestamps();
         });
