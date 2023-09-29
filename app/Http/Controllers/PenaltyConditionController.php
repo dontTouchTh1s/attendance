@@ -11,6 +11,6 @@ class PenaltyConditionController extends Controller
     {
         $pc = new PenaltyCondition();
         $pc->fill($request->validated())->save();
-        return response('', 201);
+        return response('penalty condition created successfully', 201);
     }
 }
