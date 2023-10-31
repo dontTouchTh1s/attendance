@@ -34,6 +34,16 @@ class UserRegisterRequest extends FormRequest
      */
     public function failedValidation(Validator $validator)
     {
+        $failed = $validator->failed();
+        if (isset($failed['email']['Unique'])) {
+            throw new HttpResponseException(response()->json([
+                'status' => 409,
+                'errors' => 'Email already taken'
+            ]));
+
+        }
+
+        $b = $validator->errors();
         throw new HttpResponseException(response()->json([
             'status' => 'error',
             'errors' => $validator->errors()

@@ -33,11 +33,11 @@ class EmployeeController extends Controller
         }
         $user = new User();
 
-        if (isset($request->roll)) {
-            // User trying to store employee with specific roll
+        if (isset($request->role)) {
+            // User trying to store employee with specific role
             if (\Auth::user()->cannot('create', Employee::class))
                 response('You should have super admin roll to create employee with specific roll', 403);
-            $user->roll = $request->roll;
+            $user->role = $request->role;
         }
         // Create user
         $user->password = Hash::make($request->password);
@@ -48,11 +48,15 @@ class EmployeeController extends Controller
         $employee = new Employee();
         $employee->fill($request->validated());
         $employee->user_id = $user->id;
+        $employee->role = $request->role;
         $employee->save();
 
-        // If request contain a manager id, change roll of given employee->user to manager
+        // If request contain a manager id, change role of given employee->user to manager
         if (isset($request->manager_id)) {
-            $manager = Employee::find($request->manager_id)->user;
+            $employee = Employee::find($request->manager_id);
+            $employee->role = UserRoles::Manager->value;
+            $employee->save();
+            $manager = $employee->user;
             $manager->roll = UserRoles::Manager->value;
             $manager->save();
         }

@@ -7,24 +7,24 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class WorkPlace extends Model
+class Business extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'location',
-        'address',
         'name',
-        'radius'
+
     ];
 
-    public function groupPolicies(): HasMany
+    public function user(): BelongsTo
     {
-        return $this->hasMany(GroupPolicy::class);
+        return $this->belongsTo(User::class);
+
     }
 
-    public function business(): BelongsTo
+    public function workPlaces(): HasMany
     {
-        return $this->belongsTo(Business::class);
+        return $this->hasMany(WorkPlace::class);
     }
+
 }

@@ -18,7 +18,7 @@ class Employee extends Model
         'last_name',
         'group_policy_id',
         'manager_id',
-        'user_id'
+        'user_id',
     ];
 
     public function groupPolicy(): BelongsTo

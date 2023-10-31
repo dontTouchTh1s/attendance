@@ -2,9 +2,9 @@
 
 namespace App\Policies;
 
+use App\Enums\UserRoles;
 use App\Models\Request;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 
 class RequestPolicy
 {
@@ -29,7 +29,13 @@ class RequestPolicy
      */
     public function create(User $user): bool
     {
-        //
+        $employee = request('employee_id', false);
+        if ($employee) {
+            return $user->role === UserRoles::ManagerAdministrativeAffairs or $user->employee->id === $employee;
+        } else {
+            return true;
+        }
+
     }
 
     /**

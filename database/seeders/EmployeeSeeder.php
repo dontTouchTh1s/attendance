@@ -33,7 +33,7 @@ class EmployeeSeeder extends Seeder
         ])
             ->create([
                 'email' => 'maa@host.com',
-                'roll' => UserRoles::MAA->value
+                'role' => UserRoles::ManagerAdministrativeAffairs->value
             ]);
 
         User::factory()->hasEmployee([
@@ -41,7 +41,7 @@ class EmployeeSeeder extends Seeder
             'group_policy_id' => $adminGp
         ])->create([
             'email' => 'eaa@host.com',
-            'roll' => UserRoles::EAA->value
+            'role' => UserRoles::ExpertAdministrativeAffairs->value
         ]);
     }
 

@@ -22,7 +22,6 @@ class GroupPoliciesController extends Controller
      */
     public function store(StoreGroupPoliciesRequest $request)
     {
-        $data = $request->validated();
         GroupPolicy::create($request->validated());
         return response('', 201);
     }

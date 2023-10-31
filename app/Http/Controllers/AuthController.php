@@ -6,7 +6,9 @@ use App\Http\Requests\UserRegisterRequest;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
 
 class AuthController extends Controller
 {
@@ -22,9 +24,9 @@ class AuthController extends Controller
 
         if (!$attempt) {
             return response()->json([
-                'status' => 'error',
+                'status' => 401,
                 'message' => 'Unauthorized, user name or password in wrong.',
-            ], 401);
+            ]);
         }
 
         $user = Auth::user();
@@ -80,17 +82,14 @@ class AuthController extends Controller
             'status' => 'success',
             'message' => 'User created successfully',
             'user' => $user,
-        ]);
+        ], 201);
     }
 
     public function logout(Request $request)
     {
         Auth::guard('web')->logout();
-
-        return response([
-            'status' => 'success',
-            'message' => 'Successfully logged out',
-        ]);
+        Cookie::queue(Cookie::forget('is_auth'));
+        return new Response('Logout');
     }
 
 

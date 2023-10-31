@@ -30,7 +30,7 @@ class StorePenaltyConditionRequest extends FormRequest
             'duration' => 'required|integer',
             'penalty' => 'required|integer',
             'group_policy_id' => 'required|exists:App\Models\GroupPolicy,id',
-            'penalty_type' => [new Enum(PenaltyType::class), 'required|'],
+            'penalty_type' => [new Enum(PenaltyType::class), 'required'],
             'penalty_if_no_leave_remains' => 'boolean|required_if:penalty_type,paid'
         ];
     }

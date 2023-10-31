@@ -43,26 +43,37 @@ class AttendanceLeaveController extends Controller
 
         if ($lastInDay == null) {
             // First enter in day
+            // Check if user group policy have delay penalty condition
             if ($delayPenaltyCondition != null) {
                 $workStart = new Carbon($employee->groupPolicy->work_start_hour);
                 $delay = $date->diffInMinutes($workStart);
                 if ($delay > $delayPenaltyCondition->duration) {
                     // Employee should have penalty
+                    $noPaidLeaveTimeRemain = false;
                     $penaltyType = $delayPenaltyCondition->penalty_type;
                     $penaltyTime = $delayPenaltyCondition->penalty;
                     if ($penaltyType == PenaltyType::Paid->value) {
-                        $remainLeaveMonth = $groupPolicy->max_leave_month - $employee->totalLeaveMonth($date->month);
 
+                        // Check if there is remained leave time for employee
+                        $remainLeaveMonth = $groupPolicy->max_leave_month - $employee->totalLeaveMonth($date->month);
                         $remainLeaveYear = $groupPolicy->max_leave_year - $employee->totalLeaveYear($date->year);
-                        if ($penaltyTime > $remainLeaveMonth or $penaltyTime > $remainLeaveYear)
-                            $penaltyType = PenaltyType::NoPaid->value;
+                        // If remained time is less than penalty time, check if we should penalize him or not
+                        if ($penaltyTime > $remainLeaveMonth or $penaltyTime > $remainLeaveYear) {
+                            if ($delayPenaltyCondition->penalty_if_no_leave_remains) {
+                                $penaltyType = PenaltyType::NoPaid->value;
+                            } else {
+                                $noPaidLeaveTimeRemain = true;
+                            }
+                        }
+                    }
+                    if ($noPaidLeaveTimeRemain !== true) {
+                        $penalty = new Penalty();
+                        $penalty->fill([
+                            'type' => $penaltyType,
+                            'duration' => $penaltyTime
+                        ]);
                     }
 
-                    $penalty = new Penalty();
-                    $penalty->fill([
-                        'type' => $penaltyType,
-                        'duration' => $penaltyTime
-                    ]);
                 }
             }
             $type = AttendanceLeaveType::Attendance;

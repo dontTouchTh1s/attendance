@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AttendanceLeaveController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BusinessController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\GroupPoliciesController;
 use App\Http\Controllers\LeaveRequestController;
@@ -39,7 +40,7 @@ Route::controller(AuthController::class)->prefix('auth')->group(function () {
 
 Route::middleware('auth:sanctum')->prefix('requests')->group(function () {
     Route::controller(RequestController::class)->group(function () {
-        Route::post('/create', 'store');
+        Route::post('/create', 'store')->can('create', \App\Models\Request::class);
         Route::get('/', 'index');
         Route::get('/{request}', 'show');
         Route::patch('/{requestModel?}', 'update');
@@ -49,6 +50,7 @@ Route::middleware('auth:sanctum')->prefix('requests')->group(function () {
 Route::middleware('auth:sanctum')->prefix('leave-requests')->group(function () {
     Route::controller(LeaveRequestController::class)->group(function () {
         Route::get('/', 'index');
+        Route::get('/group-by-month', 'groupByMonth');
     });
 });
 
@@ -93,5 +95,11 @@ Route::middleware('auth:sanctum')->prefix('employees')->group(function () {
     Route::controller(EmployeeController::class)->group(function () {
         Route::post('/create', 'store')->can('create', Employee::class);
         Route::get('/', 'index')->can('viewAny', Employee::class);
+    });
+});
+
+Route::middleware('auth:sanctum')->prefix('business')->group(function () {
+    Route::controller(BusinessController::class)->group(function () {
+        Route::post('/create', 'store');
     });
 });

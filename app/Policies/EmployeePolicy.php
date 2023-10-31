@@ -7,19 +7,19 @@ use App\Models\User;
 
 class EmployeePolicy
 {
-    public function createWithRoll(User $user): bool
+    public function createWithRole(User $user): bool
     {
-        return $user->roll == UserRoles::SuperAdmin->value;
+        return $user->role == UserRoles::SuperAdmin->value;
     }
 
     public function create(User $user): bool
     {
-        return $user->roll == UserRoles::SuperAdmin->value or $user->roll == UserRoles::MAA->value;
+        return $user->role == UserRoles::SuperAdmin->value or $user->role == UserRoles::ManagerAdministrativeAffairs->value;
     }
 
     public function viewAny(User $user): bool
     {
-        return $user->roll == UserRoles::SuperAdmin->value or $user->roll == UserRoles::MAA->value or $user->roll == UserRoles::EAA->value;
+        return $user->role == UserRoles::SuperAdmin->value or $user->role == UserRoles::ManagerAdministrativeAffairs->value or $user->role == UserRoles::ExpertAdministrativeAffairs->value;
     }
 
 }
